@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "amount": 10000.0,
+        "category": "salary",
+        "date": "02 march, 2026"
+    },
+    {
+        "id": 3,
+        "category": "wifi bill",
+        "amount": 1200.0,
+        "date": "10-03-2026"
+    },
+    {
+        "id": 4,
+        "category": "krnt bill",
+        "amount": 300.0,
+        "date": "01-03-2026"
+    },
+    {
+        "id": 5,
+        "category": "coffee",
+        "amount": 200.0,
+        "date": "02-03-2026"
+    }
+]
