@@ -1,4 +1,3 @@
-from model import Credential
 from Storage import StorageManager
 
 
@@ -15,7 +14,8 @@ class FinanceService:
             "id": new_id,
             "category": category,
             "amount": amount,  
-            "date": date
+            "date": date,
+            "type": "income"
         }
         data.append(new_entry)
         return self.storage.save(data)
@@ -29,7 +29,8 @@ class FinanceService:
             "id": new_id,
             "category": category,
             "amount": amount,  
-            "date": date
+            "date": date,
+            "type": "expense"
         }
         data.append(new_entry)
         return self.storage.save(data)
@@ -37,8 +38,7 @@ class FinanceService:
     # View all transactions method
     def view_transactions(self):
         """Return all transactions."""
-        data = self.storage.load()
-        return data["income"] + data["expenses"]
+        return self.storage.load()
     
     # Search transactions method
     def search_transactions(self, query):
@@ -75,9 +75,12 @@ class FinanceService:
     def get_summary(self):
         """Calculate total income, expenses, and balance."""
         data = self.storage.load()
-        total_income = sum(entry["amount"] for entry in data if entry["amount"] > 0)
-        total_expenses = sum(entry["amount"] for entry in data if entry["amount"] < 0)
+        
+        total_income = sum(entry["amount"] for entry in data if entry["type"] == "income")
+        total_expenses = sum(entry["amount"] for entry in data if entry["type"] == "expense")
+        
         balance = total_income - total_expenses
+        
         return {
             "total_income": total_income,
             "total_expenses": total_expenses,

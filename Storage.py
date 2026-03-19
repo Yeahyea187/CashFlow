@@ -19,22 +19,14 @@ class StorageManager:
     def load(self):
         """Load data from the JSON file."""
         if not os.path.exists(self.file_path):
-            return {"income": [], "expenses": []}
+            return []
         try:
             with open(self.file_path, "r") as f:
                 return json.load(f)
-            
-            if "income" not in data:
-                data["income"] = []
-            if "expense" not in data:
-                data["expense"] = []
-            
-            return data
         
         except (json.JSONDecodeError, Exception) as e:
             print(f"Error loading data: {e}")
-            return {"income": [], "expenses": []}
-        
+            return []
 
         
     
