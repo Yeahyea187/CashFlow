@@ -56,24 +56,24 @@
         "type": "income"
     },
     {
-        "id": 9,
-        "category": "23yyh",
-        "amount": 90.0,
-        "date": "20-03-2026",
-        "type": "expense"
-    },
-    {
         "id": 10,
         "category": "Salary",
-        "amount": 1000.0,
+        "amount": 4000.0,
         "date": "02-03-2026",
         "type": "income"
     },
     {
         "id": 12,
         "category": "food",
-        "amount": 150.0,
+        "amount": 250.0,
         "date": "20-03-2026",
         "type": "expense"
+    },
+    {
+        "id": 13,
+        "category": "Salary",
+        "amount": 500.0,
+        "date": "3-2-2026",
+        "type": "income"
     }
 ]
