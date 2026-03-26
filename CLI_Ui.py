@@ -45,6 +45,9 @@ class CashFlow:
         
         while True:
             category = input("Category: ").strip()
+            if not category:
+                print(Fore.RED + "Category cannot be empty!")
+                continue
             
             if len(category) <= 2 or not category.isalpha():
                 print(Fore.RED + "Category must be at least 2 characters long and contain only letters.")
