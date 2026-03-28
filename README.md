@@ -1,17 +1,26 @@
 # Cash Flow CLI
 
-A lightweight personal finance manager that runs in the terminal.
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Python](https://img.shields.io/badge/python-3.11+-blue.svg)
+
+A polished terminal-based personal finance tracker built with Python. Designed to be easy to use, reliable, and complete for managing daily cash flow.
 
 ## Project Overview
 
-`CashFlow` is a Python CLI application for tracking income and expenses. It stores transaction records in `finance_data.json` and supports:
+`CashFlow` is a Python CLI application for tracking income and expense entries with JSON persistence. Key workflows include:
 
-- Add income and expenses
-- List all transactions
-- Search by category or date
-- Delete transactions by ID
-- Update transactions by ID
-- Summary report (total income, total expenses, balance)
+- Add income and expense records
+- View all transactions in a table
+- Search entries by category or date
+- Delete and update entries by ID
+- Generate summary reports (total income/expenses/balance)
+
+## Highlights
+
+- Clean, colorized CLI interaction using `colorama`
+- Data validation on date, amount, and category input
+- Persistent store in `finance_data.json` for simplicity
+- Modular code with service and storage separation
 
 ## Architecture
 
@@ -96,11 +105,11 @@ Md. Yeahyea Jam
 
 ## Contribution
 
-1. Fork repo
-2. Create topic branch
-3. Commit changes
-4. Open PR
+1. Fork repository
+2. Create a feature branch (`git checkout -b feature/your-feature`)
+3. Commit with descriptive message
+4. Open a pull request for review
 
 ## License
 
-MIT (or your preferred license)
+MIT
