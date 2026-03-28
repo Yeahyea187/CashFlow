@@ -44,11 +44,12 @@ class FinanceService:
     def search_transactions(self, query):
         """Search transactions by category or date."""
         data = self.storage.load()
+
         if query == "income":
             return [entry for entry in data if entry["type"] == "income"]
         elif query == "expense":
             return [entry for entry in data if entry["type"] == "expense"]
-
+        
         return [entry for entry in data if query.lower() in entry["category"].lower() or query in entry["date"]]
     
     # Delete transaction method
@@ -59,8 +60,8 @@ class FinanceService:
         
         if len(data) == len(new_data):
             return False
-        return self.storage.save(new_data)
-
+        return self.storage.save(new_data) 
+        
     # Update transaction method
     def update_transaction(self, id, amount, category, date):
         """Update a transaction by ID."""
@@ -74,7 +75,7 @@ class FinanceService:
                 if date :
                     entry["date"] = date
                 break
-        return self.storage.save(data)
+        return self.storage.save(data)   
     
     # Get summary method
     def get_summary(self):
@@ -91,7 +92,4 @@ class FinanceService:
             "total_expenses": total_expenses,
             "balance": balance
         }
-        
-        
-    
     

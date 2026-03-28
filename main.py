@@ -1,11 +1,12 @@
-from features import Feature
+from CLI_UI import UI
 
 def main():
+    
     """Main entry point of the application."""
-    app = Feature()
+    display = UI()
     
     try:
-        app.display_features()
+        display.display_UI()
     except KeyboardInterrupt:
         print("\n\nProgram terminated by user. Stay safe!")
         

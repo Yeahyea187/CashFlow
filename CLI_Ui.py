@@ -1,157 +1,51 @@
+from Features import CashFlow
 from colorama import Fore, Style, init
-from tabulate import tabulate
-from Finance_Service import FinanceService
-from datetime import datetime
-from utils import Validation
+import sys
 
 # Initialize colorama
-init(autoreset=True)
+init(autoreset=True)    
 
+class UI(CashFlow):
+    def display_header(self):
+        title = "💸 Cash Flow CLI 💸"
+        print(Fore.CYAN + " " + "=" * 50)
+        print(Fore.CYAN + "|" + " " * 50 + "|")
+        print(f"{Fore.CYAN}|{Style.RESET_ALL} {Fore.YELLOW}{title.center(46)}{Style.RESET_ALL} {Fore.CYAN}|{Style.RESET_ALL}")
+        print(Fore.CYAN + "|" + " " * 50 + "|")
+        print(Fore.CYAN + " " + "=" * 50)
+        print("\n")
 
-class CashFlow:
-    
-    def __init__(self):
-        self.manager = FinanceService()
-        self.validation = Validation()
-    
-    # Add income
-    def add_income(self):
-        
-        print("--- Add Income ---")
-        
-        print(Fore.CYAN + "Press Enter to use the default category (Salary), or type your own category.")
+    def display_UI(self):
         while True:
-            category = input("Category: ").strip()
-            if not category:
-                category = "Salary"
+            self.display_header()
+            print("1. " + Fore.GREEN + "Add a new income" + Style.RESET_ALL)
+            print("2. " + Fore.GREEN + "Add a new expense" + Style.RESET_ALL)
+            print("3. " + Fore.BLUE + "View all transactions" + Style.RESET_ALL)
+            print("4. " + Fore.BLUE + "Search for a transaction" + Style.RESET_ALL)
+            print("5. " + Fore.RED + "Delete a transaction" + Style.RESET_ALL)
+            print("6. " + Fore.MAGENTA + "Update a transaction" + Style.RESET_ALL)
+            print("7. " + Fore.MAGENTA + "View summary report" + Style.RESET_ALL)
+            print("0. " + Fore.RED + "Exit" + Style.RESET_ALL)
             
-            if len(category) <= 2 or not category.isalpha():
-                print(Fore.RED + "Category must be at least 2 characters long and contain only letters.")
-                continue
-            break 
-        
-        data = self.validation.get_transaction_input()
-        if not data:
-            return
-                    
-        amount, date = data
-        self.manager.add_income(amount, category, date )
-        print(Fore.GREEN + "Income added successfully!")
-     
-     # add expense   
-    def add_expense(self):
-        
-        print("--- Add Expense ---")
-        
-        while True:
-            category = input("Category: ").strip()
-            if not category:
-                print(Fore.RED + "Category cannot be empty!")
-                continue
+            choice = input("\nChoose an option: ")
             
-            if len(category) <= 2 or not category.isalpha():
-                print(Fore.RED + "Category must be at least 2 characters long and contain only letters.")
-                continue
-            break
-        
-        data = self.validation.get_transaction_input()
-        if not data:
-            return
-        
-        amount, date = data
-        
-        self.manager.add_expense(amount, category, date)
-        print(Fore.GREEN + "Expense added successfully!")
-    
-    # View transactions
-    def view_transactions(self):
-        
-        data = self.manager.view_transactions()
-        
-        if not data:
-            print("No transactions found!")
-            return
-        
-        table = [[entry["id"], entry["category"], entry["amount"], entry["date"]] for entry in data]
-        print("\n" + tabulate(table, headers=["ID", "Category", "Amount", "Date"], tablefmt="fancy_grid"))
-        
-    #search transactions method
-    def search_transactions(self):
-        query = input("\nEnter Category/Date(DD-MM-YYYY): ").strip()
-        if not query:
-            return
-        
-        self.validation.sort_transaction(query)
-        
-     #delete transaction method
-    def delete_transaction(self):
-        while True:
-            query = input("\nEnter a category/date (DD-MM-YYYY) to find the transaction you want to delete: ").strip()
-            
-            if  self.validation.sort_transaction(query):
-                break
-                
-        try:
-            id = int(input("\nEnter Transaction ID to delete: "))
-            if self.manager.delete_transaction(id):
-                print(Fore.GREEN + f"Transaction {id} deleted.")
-            else:
-                print(Fore.RED + "Transaction ID not found.")
-        except ValueError:
-            print(Fore.RED + "Invalid ID.")
-    
-    # update transaction method        
-    def update_transaction(self):
-        while True:
-            query = input("\n1.Income\n2.Expense\nEnter type to find the transaction you want to update: ").strip()
-            if query == "1" or query == "income":
-                query = "income"
-            elif query == "2" or query == "expense":
-                query = "expense"
-            else:
-                print(Fore.RED + "Invalid input. Please enter '1' for Income or '2' for Expense.")
-                continue
-            if  self.validation.sort_transaction(query):
-                break
-        
-        try:
-            id = int(input("\nEnter Transaction ID to update: "))
-            if not any(entry["id"] == id for entry in self.manager.view_transactions()):
-                print(Fore.RED + "Transaction ID not found.")
-                return
-            
-            # amount_input = input("New Amount (leave blank to keep current): ").strip()
-            category_input = input("New Category (leave blank to keep current): ").strip()
-            # date_input = input("New Date (DD-MM-YYYY, leave blank to keep current): ").strip()
-            
-            data = self.validation.get_transaction_input()
-            amount_input, date_input = data if data else (None, None)
-            amount = float(amount_input) if amount_input else None
-            category = category_input if category_input else None
-            date = date_input if date_input else None
-            
-            if self.manager.update_transaction(id, amount, category, date):
-                print(Fore.GREEN + f"Transaction {id} updated.")
-            else:
-                print(Fore.RED + "Transaction ID not found.")
-        except ValueError:
-            print(Fore.RED + "Invalid input.")
-        
-    #view summary report method
-    def view_summary_report(self):
-        summary = self.manager.get_summary()
-        if not summary:
-            print("No transactions found!")
-            return
-        
-        total_income = summary["total_income"]
-        total_expenses = summary["total_expenses"]
-        balance = summary["balance"]
-        
-        print("\n--- Summary Report ---")
-        print(f"Total Income: {Fore.GREEN}${total_income:.2f}")
-        print(f"Total Expenses: {Fore.RED}${-total_expenses:.2f}")
-        print(f"Net Balance: {Fore.BLUE}${balance:.2f}")
-        
-        
-        
+            match choice:   
+                case '1':
+                    self.add_income()
+                case '2':
+                    self.add_expense()
+                case '3':
+                    self.view_transactions()
+                case '4':
+                    self.search_transactions()
+                case '5':
+                    self.delete_transaction()
+                case '6':
+                    self.update_transaction()
+                case '7':
+                    self.view_summary_report()
+                case '0':
+                    print(Fore.GREEN + "Thank you for using the Cash Flow CLI!" + Style.RESET_ALL)
+                    sys.exit()
+                case _:
+                    print(Fore.RED + "Invalid choice. Please try again." + Style.RESET_ALL)
