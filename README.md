@@ -5,6 +5,7 @@ A lightweight personal finance manager that runs in the terminal.
 ## Project Overview
 
 `CashFlow` is a Python CLI application for tracking income and expenses. It stores transaction records in `finance_data.json` and supports:
+
 - Add income and expenses
 - List all transactions
 - Search by category or date
@@ -54,6 +55,7 @@ python main.py
 ```
 
 Menu choices:
+
 - `1`: Add income
 - `2`: Add expense
 - `3`: View all transactions
@@ -66,6 +68,7 @@ Menu choices:
 ## Data Format
 
 Transactions are saved in `finance_data.json` with fields:
+
 - `id` (int)
 - `category` (string)
 - `amount` (float)
@@ -86,6 +89,10 @@ Transactions are saved in `finance_data.json` with fields:
 __pycache__/
 .venv/
 ```
+
+## Developer
+
+Md. Yeahyea Jam
 
 ## Contribution
 
